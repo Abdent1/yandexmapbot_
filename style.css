@@ -1,0 +1,982 @@
+
+*{
+    box-sizing: border-box;
+}
+html,body{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background:url("https://www.toptal.com/designers/subtlepatterns/uploads/moroccan-flower.png");
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+#tab1YandexMap{
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+p {
+        width: 250px;
+}
+        
+.ymaps-2-1-79-panorama-gotoymaps, .ymaps-2-1-79-gototech, .ymaps-2-1-79-gototaxi, .ymaps-2-1-79-gotoymaps,
+.ymaps-2-1-79-route-panel-input__location,.ymaps-2-1-79-route-panel-button, .ymaps-2-1-79-copyright{
+    display: none !important;
+} 
+#thead, #tbody { display: block; }
+#tbody {
+    height: 160px;
+    overflow-y: auto;
+}
+#route{
+    z-index: 15;
+    position:absolute;
+    display: none;
+    width: 100%;
+    height: 170px;
+    left: 0;
+    bottom: 0;
+    background-color: white;
+    border: 1px solid #CDB7B5;
+    border-radius: 15px 15px 0 0;
+    font-size: 24px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+#icon{
+    margin: 10px 0 0 10px;
+    width: 65px;
+    height: 65px;
+    border-radius: 15px;
+}
+#Route-close{
+    width: 20px;
+    height: 20px;
+    align-self: self-end;
+    background-color: transparent;
+}
+#Route-Address{
+    margin: 5px 10px 0 2px;
+    font-size: 16px;
+    font-weight: bold;
+    height: 30px ;
+    overflow-y: auto ;
+}
+#Route-Address-Expans{
+    color: rgb(73, 73, 73);
+    margin: 5px 10px 0 2px;
+    align-self: center;
+    font-size: 16px;
+    height: 30px ;
+    overflow-y: auto ;
+    overflow-x: hidden;
+}
+#Route-Type{
+    margin-left: 10px;
+    margin: 5px;
+}
+.btn{
+    border: none;
+    color: white;
+    padding: 12px 16px !important;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 15px;
+}
+.btnType {
+    background-color: DodgerBlue;
+}
+.btnClose{
+    background-color: red;
+}
+.btnBars{
+    background-color: rgb(165, 165, 165);
+    margin-bottom: 5px;
+
+}
+.btnZoom{
+    display: block;
+    margin-top: 10px;
+    background: linear-gradient(90deg, rgb(255, 255, 255) 0%,  rgb(255, 255, 255) 100%);
+    color:white;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    padding: 12px 16px !important;
+}
+.btnZoom:hover{
+    background:linear-gradient(90deg, rgb(156, 156, 156) 0%,  rgb(160, 160, 160) 100%);
+    color:black;
+}
+
+.btnType:hover {
+    background-color: RoyalBlue;
+}
+.btnClose:hover {
+    background-color: darkred;
+}
+.btnBars:hover{
+   
+    background-color: lightslategray;
+}
+
+.ymaps-2-1-79-controls__control{
+    margin: auto !important;
+    inset: auto auto auto 90% !important;
+}
+
+.ymaps-2-1-79-float-button[title="markerBliz"]{
+    max-width: 150px  !important;
+    position: absolute !important;
+    left: 90.4%;
+    transform: translate(-50%, -50%);
+    margin-top: 128px;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    width: 45px;
+    height: 45px;
+}
+
+.ymaps-2-1-79-float-button[title="markerBliz"]{
+    background-image: url(https://img.icons8.com/?size=512&id=91501&format=png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+
+
+.ymaps-2-1-79-float-button-icon_icon_geolocation{
+    background-image: none !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-position-y: 1px !important;
+    background-position-x: 10px !important;
+    box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, -0.5) !important;
+}
+
+.ymaps-2-1-79-float-button[title="Определить ваше местоположение"]{
+    background-image: url(https://cdn-icons-png.flaticon.com/512/1089/1089271.png) !important;
+    background-size: 80% 80% !important;
+    background-position: center !important;
+    background-position-y: 5px !important;
+    background-position-x: 4px !important;
+    background-repeat: no-repeat;
+    box-shadow: 0px 5px 10px 5px rgba(0, 0, 0, -0.5) !important;
+    position: absolute !important;
+    top: 50% !important;
+    margin-top: 50px;
+    left: 89.1%;
+    width: 45px;
+    height: 45px;
+    box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5) !important;
+}
+.positionZoom{
+    position: absolute !important;
+    top: 300px !important;
+    left: 10px;
+    transform: translate(-50%, 50%);
+}
+
+#bars{
+    float: left;
+}
+#close{
+    float: right;
+    margin-bottom: 30px !important;
+    
+}
+.fa-men::before{
+    content: "🚶";
+}
+/*
+ table {
+    border: 1px solid red;
+    border-collapse: collapse;
+    
+}    
+td{
+     border: 1px solid red;
+} 
+*/
+
+
+.type{
+    float: right;
+}   
+#desc{
+    display: none;
+    margin: 10px 10px 0 10px;
+    color: black;
+}
+.table{
+    width: 99%;  
+}
+.col3{
+    width: 99%;
+}
+.col2{
+    width: 70%;
+}
+/* .col1{
+    width: 60px;
+} */
+
+@media screen and (max-width: 1441px){
+
+    .fa.fa-plus{
+        position: absolute;
+        top: 16px;
+        left: 17px;
+        z-index: 1;
+    }
+
+    .fa.fa-minus{
+        position: absolute;
+        top: 16px;
+        left: 17px;
+        z-index: 1;
+    }
+
+    .btn{
+        border: none ;
+        color: white;
+        padding: 12px 16px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 15px;
+        
+    }
+    .ymaps-2-1-79-float-button[title="markerBliz"]{
+        max-width: 300px  !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 90.8% !important;
+        transform: translate(-50%, -50%) !important;
+        margin-top: 120px !important;
+        width: 50px !important;
+        height: 50px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    .ymaps-2-1-79-float-button[title="Определить ваше местоположение"]{
+        position: absolute !important;
+        margin-top: 35px !important;
+        top: 50% !important;
+        left: 88.8% !important;
+        width: 50px !important;
+        height: 50px !important;
+        display: flex !important;
+        justify-content: left !important;
+        align-items: center !important;
+        margin-left: 0px !important;
+    }
+    .ymaps-2-1-79-float-button-icon, .ymaps-2-1-79-float-button-icon_icon_geolocation{
+        width: 50px !important;
+        height: 50px !important;
+    }
+    .btn.btnZoom{
+        width: 50px !important;
+        height: 50px !important;
+        transform: translateY(-50px) !important;
+    }
+    .ymaps-2-1-79-float-button-icon.ymaps-2-1-79-float-button-icon_icon_geolocation{
+        width: 50px !important;
+        height: 50px !important;
+        left: 2px !important;
+        padding-left: 2px !important;
+        background-size: 30px 30px !important;
+    }
+} 
+
+@media screen and (max-width: 1200px){
+    .fa.fa-plus{
+        position: absolute;
+        top: 16px;
+        left: 18px;
+        z-index: 1;
+    }
+
+    .fa.fa-minus{
+        position: absolute;
+        top: 16px;
+        left: 18px;
+        z-index: 1;
+    }
+
+    .btn{
+        border: none;
+        color: white;
+        padding: 12px 16px !important;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 15px;
+        
+    }
+    .ymaps-2-1-79-float-button[title="markerBliz"]{
+        max-width: 300px  !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 91% !important;
+        transform: translate(-50%, -50%) !important;
+        margin-top: 124px !important;
+        width: 50px !important;
+        height: 50px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+    .ymaps-2-1-79-float-button[title="Определить ваше местоположение"]{
+        position: absolute !important;
+        margin-top: 40px !important;
+        top: 50% !important;
+        left: 89.1% !important;
+        width: 50px !important;
+        height: 50px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin-left: -5px !important;
+    }
+    .btn.btnZoom{
+        width: 50px !important;
+        height: 50px !important;
+        transform: translateY(-120px) !important;
+    }
+    .ymaps-2-1-79-float-button-icon.ymaps-2-1-79-float-button-icon_icon_geolocation{
+        width: 30px !important;
+        height: 30px !important;
+        background-size: 30px 30px !important;
+        margin-left: -2px !important;
+        margin-top: -2px !important;
+    }
+} 
+
+@media screen and (max-width: 992px){
+    .fa.fa-plus{
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        z-index: 1;
+    }
+
+    .fa.fa-minus{
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        z-index: 1;
+    }
+
+    .btn{
+        border: none;
+        color: white;
+        padding: 12px 16px !important;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 15px;
+        
+    }
+    .ymaps-2-1-79-float-button[title="markerBliz"]{
+        max-width: 300px  !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 91.2% !important;
+        width: 50px !important;
+        height: 50px !important;
+        transform: translate(-50%, -50%) !important;
+        margin-top: 125px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+   
+    .ymaps-2-1-79-float-button[title="Определить ваше местоположение"]{
+        position: absolute !important;
+        margin-top: 40px !important;
+        top: 50% !important;
+        left: 91% !important;
+        width: 50px !important;
+        height: 50px !important;
+        display: flex !important;
+        justify-content: left !important;
+        align-items: center !important;
+        padding-right: 10px !important;
+        padding-left: 10px !important;
+        margin-left: -24px !important;
+    }
+    .btn.btnZoom{
+        width: 50px !important;
+        height: 50px !important;
+        transform: translateY(60px) !important;
+    }
+    .ymaps-2-1-79-float-button-icon.ymaps-2-1-79-float-button-icon_icon_geolocation{
+        width: 60px !important;
+        height: 60px !important;
+        background-size: 40px 40px !important;
+        margin-top: 6px !important;
+    }
+} 
+
+@media screen and (max-width: 769px){
+    .fa.fa-plus{
+        position: absolute;
+        top: 16px;
+        left: 17px;
+        z-index: 1;
+    }
+
+    .fa.fa-minus{
+        position: absolute;
+        top: 16px;
+        left: 17px;
+        z-index: 1;
+    }
+
+    .btn{
+        border: none;
+        color: white;
+        padding: 12px 16px !important;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 15px;
+        
+    }
+    .ymaps-2-1-79-float-button[title="markerBliz"]{
+        max-width: 300px  !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 91.2% !important;
+        width: 50px !important;
+        height: 50px !important;
+        transform: translate(-50%, -50%) !important;
+        margin-top: 125px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+   
+    .ymaps-2-1-79-float-button[title="Определить ваше местоположение"]{
+        position: absolute !important;
+        margin-top: 40px !important;
+        top: 50% !important;
+        left: 91% !important;
+        width: 50px !important;
+        height: 50px !important;
+        display: flex !important;
+        justify-content: left !important;
+        align-items: center !important;
+        padding-right: 10px !important;
+        padding-left: 10px !important;
+        margin-left: -24px !important;
+    }
+    .btn.btnZoom{
+        width: 50px !important;
+        height: 50px !important;
+        transform: translateY(60px) !important;
+    }
+    .ymaps-2-1-79-float-button-icon.ymaps-2-1-79-float-button-icon_icon_geolocation{
+        width: 60px !important;
+        height: 60px !important;
+        background-size: 40px 40px !important;
+        margin-top: 6px !important;
+    }
+} 
+
+
+@media screen and (max-width: 992px) and (min-height: 1367px){
+    .fa.fa-plus{
+        position: absolute;
+        top: 20px;
+        left: 22px;
+        z-index: 1;
+        font-size: 18px;
+    }
+
+    .fa.fa-minus{
+        position: absolute;
+        top: 20px;
+        left: 22px;
+        z-index: 1;
+        font-size: 18px;
+    }
+
+    .btn{
+        border: none;
+        color: white;
+        padding: 12px 16px !important;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 15px;
+    }
+    .ymaps-2-1-79-float-button[title="markerBliz"]{
+        max-width: 300px  !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 91.1% !important;
+        width: 60px !important;
+        height: 60px !important;
+        transform: translate(-50%, -50%) !important;
+        margin-top: 170px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+   
+    .ymaps-2-1-79-float-button[title="Определить ваше местоположение"]{
+        position: absolute !important;
+        margin-top: 70px !important;
+        top: 50% !important;
+        left: 91.3% !important;
+        width: 60px !important;
+        height: 60px !important;
+        display: flex !important;
+        justify-content: left !important;
+        align-items: center !important;
+        padding-right: 10px !important;
+        padding-left: 10px !important;
+        margin-left: -32px!important;
+    }
+    .btn.btnZoom{
+        width: 60px !important;
+        height: 60px !important;
+        transform: translateY(200px) !important;
+    }
+} 
+
+@media screen and (max-width: 821px) and (min-height: 1179px) and (max-height: 1181px){
+    .fa.fa-plus{
+        position: absolute;
+        top: 20px;
+        left: 22px;
+        z-index: 1;
+        font-size: 18px;
+    }
+
+    .fa.fa-minus{
+        position: absolute;
+        top: 20px;
+        left: 22px;
+        z-index: 1;
+        font-size: 18px;
+    }
+
+    .btn{
+        border: none;
+        color: white;
+        padding: 12px 16px !important;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 15px;
+    }
+    .ymaps-2-1-79-float-button[title="markerBliz"]{
+        max-width: 300px  !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 91.1% !important;
+        width: 60px !important;
+        height: 60px !important;
+        transform: translate(-50%, -50%) !important;
+        margin-top: 170px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+   
+    .ymaps-2-1-79-float-button[title="Определить ваше местоположение"]{
+        position: absolute !important;
+        margin-top: 70px !important;
+        top: 50% !important;
+        left: 91.3% !important;
+        width: 60px !important;
+        height: 60px !important;
+        display: flex !important;
+        justify-content: left !important;
+        align-items: center !important;
+        padding-right: 10px !important;
+        padding-left: 10px !important;
+        margin-left: -32px!important;
+    }
+    .btn.btnZoom{
+        width: 60px !important;
+        height: 60px !important;
+        transform: translateY(100px) !important;
+    }
+} 
+
+
+
+@media screen and (max-width: 576px){  
+    .fa.fa-plus{
+        position: absolute;
+        top: 13px;
+        left: 15px;
+        z-index: 1;
+    }
+
+    .fa.fa-minus{
+        position: absolute;
+        top: 13px;
+        left: 15px;
+        z-index: 1;
+    }
+    .btn{
+        border: none;
+        color: white;
+        padding: 12px 16px !important;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 15px;
+        
+    }
+    .ymaps-2-1-79-float-button[title="markerBliz"]{
+        max-width: 300px  !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 90% !important;
+        transform: translate(-50%, -50%) !important;
+        margin-top: 127px !important;
+        width: 45px !important;
+        height: 45px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    .ymaps-2-1-79-float-button[title="Определить ваше местоположение"]{
+        position: absolute !important;
+        margin-top: 50px !important;
+        top: 50% !important;
+        left: 88.93% !important;
+        width: 45px !important;
+        height: 45px !important;
+        display: flex !important;
+        justify-content: left !important;
+        align-items: center !important;
+        margin-left: -18px !important;
+    }
+    .btn.btnZoom{
+        width: 45px !important;
+        height: 45px !important;
+        transform: translateY(-20px) translateX(-10px) !important;
+    }
+}  
+
+@media screen and (max-width: 576px) and (max-height: 730px){
+    .fa.fa-plus{
+        position: absolute;
+        top: 11px;
+        left: 13px;
+        z-index: 1;
+    }
+
+    .fa.fa-minus{
+        position: absolute;
+        top: 11px;
+        left: 13px;
+        z-index: 1;
+    }
+
+    .btn{
+        border: none;
+        color: white;
+        padding: 12px 16px !important;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 15px;
+        
+    }
+    .ymaps-2-1-79-float-button[title="markerBliz"]{
+        max-width: 300px  !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 90% !important;
+        transform: translate(-50%, -50%) !important;
+        margin-top: 120px !important;
+        width: 40px !important;
+        height: 40px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    .ymaps-2-1-79-float-button[title="Определить ваше местоположение"]{
+        position: absolute !important;
+        margin-top: 50px !important;
+        top: 50% !important;
+        left: 89.6% !important;
+        width: 40px !important;
+        height: 40px !important;
+        display: flex !important;
+        justify-content: left !important;
+        align-items: center !important;
+        margin-left: -18px !important;
+    }
+    .btn.btnZoom{
+        width: 40px !important;
+        height: 40px !important;
+        transform: translateY(-70px) translateX(-10px) !important;
+    }
+
+    .ymaps-2-1-79-float-button-icon.ymaps-2-1-79-float-button-icon_icon_geolocation{
+        width: 50px !important;
+        height: 50px !important;
+        background-size: 30px 30px !important;
+        margin-top: 16px !important;
+        margin-left: -2px !important;
+    }
+}  
+
+
+@media screen and (max-width: 576px) and (max-height: 670px){
+    .fa.fa-plus{
+        position: absolute;
+        top: 11px;
+        left: 11px;
+        z-index: 1;
+    }
+
+    .fa.fa-minus{
+        position: absolute;
+        top: 11px;
+        left: 11px;
+        z-index: 1;
+    }
+
+    .btn{
+        border: none;
+        color: white;
+        padding: 12px 16px !important;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 15px;
+        
+    }
+    .ymaps-2-1-79-float-button[title="markerBliz"]{
+        max-width: 300px  !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 90% !important;
+        transform: translate(-50%, -50%) !important;
+        margin-top: 120px !important;
+        width: 40px !important;
+        height: 40px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    .ymaps-2-1-79-float-button[title="Определить ваше местоположение"]{
+        position: absolute !important;
+        margin-top: 50px !important;
+        top: 50% !important;
+        left: 89.6% !important;
+        width: 40px !important;
+        height: 40px !important;
+        display: flex !important;
+        justify-content: left !important;
+        align-items: center !important;
+        margin-left: -18px !important;
+    }
+    .btn.btnZoom{
+        width: 40px !important;
+        height: 40px !important;
+        transform: translateY(-80px) translateX(-10px) !important;
+    }
+
+    .ymaps-2-1-79-float-button-icon.ymaps-2-1-79-float-button-icon_icon_geolocation{
+        width: 40px !important;
+        height: 40px !important;
+        background-size: 30px 30px !important;
+        margin-top: 16px !important;
+        margin-left: -2px !important;
+    }
+}  
+
+
+@media screen and (max-width: 1000px) and (max-height: 600px){
+    .fa.fa-plus{
+        position: absolute;
+        top: 11px;
+        left: 7px;
+        z-index: 1;
+    }
+
+    .fa.fa-minus{
+        position: absolute;
+        top: 11px;
+        left: 7px;
+        z-index: 1;
+    }
+    .btn{
+        border: none;
+        color: white;
+        padding: 12px 16px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 15px;
+        
+    }
+    .ymaps-2-1-79-float-button[title="markerBliz"]{
+        max-width: 300px  !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 89.1% !important;
+        transform: translate(-50%, -50%) !important;
+        margin-top: 90px !important;
+        width: 40px !important;
+        height: 40px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    .ymaps-2-1-79-float-button[title="Определить ваше местоположение"]{
+        position: absolute !important;
+        margin-top: 20px !important;
+        top: 50% !important;
+        left: 88.8% !important;
+        width: 40px !important;
+        height: 40px !important;
+        display: flex !important;
+        justify-content: left !important;
+        align-items: center !important;
+        margin-left: -18px!important;
+    }
+    .btn.btnZoom{
+        width: 40px !important;
+        height: 40px !important;
+        transform: translateY(-200px) translateX(-16px) !important;
+    }
+}  
+
+@media screen and (max-width: 281px){
+    .fa.fa-plus{
+        position: absolute;
+        top: 11px;
+        left: 13px;
+        z-index: 1;
+    }
+
+    .fa.fa-minus{
+        position: absolute;
+        top: 11px;
+        left: 13px;
+        z-index: 1;
+    }
+    .btn{
+        border: none;
+        color: white;
+        padding: 12px 16px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 15px;
+        
+    }
+    .ymaps-2-1-79-float-button[title="markerBliz"]{
+        max-width: 300px  !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 90% !important;
+        transform: translate(-50%, -50%) !important;
+        margin-top: 125px !important;
+        width: 40px !important;
+        height: 40px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+
+    .ymaps-2-1-79-float-button[title="Определить ваше местоположение"]{
+        position: absolute !important;
+        margin-top: 55px !important;
+        top: 50% !important;
+        left: 89.3% !important;
+        width: 40px !important;
+        height: 40px !important;
+        display: flex !important;
+        justify-content: left !important;
+        align-items: center !important;
+        margin-left: -18px !important;
+    }
+    .btn.btnZoom{
+        width: 40px !important;
+        height: 40px !important;
+        transform: translateY(-90px) translateX(-10px) !important;
+    }
+
+    .ymaps-2-1-79-float-button-icon.ymaps-2-1-79-float-button-icon_icon_geolocation{
+        width: 40px !important;
+        height: 40px !important;
+        background-size: 30px 30px !important;
+        margin-top: 6px !important;
+        margin-left: -4px !important;
+    }
+}
+
+@media screen and (max-width: 1200px) and (max-height: 820px) and (min-width: 1160px){
+    .fa.fa-plus{
+        padding: 6px 5px !important;
+    }
+
+    .fa.fa-minus{
+        padding: 6px 5px !important;
+    }
+    .btn{
+        border: none;
+        color: white;
+        padding: 12px 16px !important;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 15px;
+        
+    }
+    .ymaps-2-1-79-float-button[title="markerBliz"]{
+        max-width: 300px  !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 90.9% !important;
+        transform: translate(-50%, -50%) !important;
+        margin-top: 140px !important;
+        width: 60px !important;
+        height: 60px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+    }
+    .ymaps-2-1-79-float-button[title="Определить ваше местоположение"]{
+        position: absolute !important;
+        margin-top: 40px !important;
+        top: 50% !important;
+        left: 88.8% !important;
+        width: 60px !important;
+        height: 60px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin-left: -5px !important;
+    }
+    .btn.btnZoom{
+        width: 60px !important;
+        height: 60px !important;
+        transform: translateY(-50px) !important;
+    }
+    .ymaps-2-1-79-float-button-icon.ymaps-2-1-79-float-button-icon_icon_geolocation{
+        width: 60px !important;
+        height: 60px !important;
+        background-size: 30px 30px !important;
+        margin-left: -2px !important;
+        margin-top: -2px !important;
+    }
+} 

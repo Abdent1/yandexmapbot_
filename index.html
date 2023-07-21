@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head> 
+
+	<script type="application/json src="Read.json?nocache=el" >
+	var el = document.createElement( script );
+	el.src = 'mySaveFiles.json?nocache=' + (new Date()).getTime();
+	document.head.appendChild( el );
+	</script>
+	
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8"/>  
+  <title>MapYandexBot</title>
+  <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=21ba4f6d-b23e-46af-805e-2e1e8dc1b390" type="text/javascript"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://yandex.st/jquery/2.2.3/jquery.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type = "text/css" href="style.css">
+  <link rel="stylesheet" type = "text/css" href="bootstrap.css"> 
+</head>
+<body id="body">  
+  <div id="route">
+    <table id="table" class="table table-borderless">
+      <thead id="thead">
+        <tr>
+          <td class="col1">
+            <div id="Route-Icon">
+              <img src="http://s.zefirka.net/images/2021-03-15/krasota-prirody-na-fotografiyax/krasota-prirody-na-fotografiyax-2.jpg" id="icon"/>
+            </div>
+          </td>
+          <td class="col2">
+            <div id="Route-Address">Короткий адрес</div>
+            <div id="Route-Address-Expans">Более подробный адрес</div>
+          </td>
+          <td class="col3">
+            <button class="btn btnClose" id="close"><i class="fa fa-close"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div id="Route-Type">
+              <button class="btn btnType" id="car"><i class="fa fa-car"></i></button>
+              <button class="btn btnType" id="bus"><i class="fa fa-bus"></i></button>
+              <button class="btn btnType" id="bicycle"><i class="fa fa-bicycle"></i></button>
+              <button class="btn btnType" id="men"><i class="fa fa-men"></i></button>
+            </div>
+          </td>
+          <td>
+            <button class="btn btnBars" id="bars"><i id="barsChecked" class="fa fa-bars">+</i></button>
+          </td>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        <tr>
+          <td colspan="3">
+            <div id="desc"></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="tab1YandexMap"></div>     
+  <script> 
+    class Markers {
+      constructor(Id_user, Address, Img, Context, Lon, Lat) {
+        this.Id_user = Id_user;
+        this.Address = Address;
+        this.Img = Img;
+        this.Context = Context;
+        this.Lon = Lon;
+        this.Lat = Lat;
+      }
+    }
+  </script>
+  <script>  
+    var webapp = window.Telegram.WebApp;
+    webapp.MainButton.hide();
+    webapp.expand();
+    webapp.onEvent('viewportChanged', () => WebApp.expand());
+
+    var tdDesc = document.getElementById("desc");
+    tdDesc.style.width = webapp.viewportWidth + "px";
+
+    var map, userCoordinates, multiRoute, listCoordinates, listN = 0;
+
+    function Init() {
+      ymaps.ready(function () {
+        var geolocation = ymaps.geolocation;
+        map = new ymaps.Map('tab1YandexMap', {
+          center: [59.920632, 30.360074],
+          zoom: 16,
+          controls: ["geolocationControl"]
+        }, {
+          searchControlProvider: 'yandex#search',
+          minZoom: 3,
+          restrictMapArea: [
+            [85, -30],
+            [-85, 329.99]
+          ]
+        });
+
+        var geolocationControl = map.controls.get("geolocationControl");
+        geolocationControl.options.set("float", "right");
+        geolocationControl.options.set("noPlacemark", "true");
+
+        geolocationControl.events.add('locationchange', function (event) {
+          var position = event.get('position');
+          map.zoomRange.get(position).then(function (range) {
+            map.setCenter(position, 17);
+          });
+        });
+
+        var markerBliz = new ymaps.control.Button({
+          data: {
+            content: '',
+            title: "markerBliz"
+          },
+          options: {
+            selectOnClick: false
+          }
+        });
+
+        markerBliz.events.add('click', function () {
+          if (userCoordinates == null) {
+            confirm("Подтвердите свою геолокацию!");
+            return;
+          }
+
+          if (listCoordinates.length == 0) {
+            confirm("Идет поиск...");
+            return;
+          }
+
+          var mapList = new Map();
+          var listCoordPanTo = [];
+
+          for (let i = 0; i < listCoordinates.length; i += 2) {
+            var m = Math.sqrt(
+              Math.pow(userCoordinates[0] - listCoordinates[i], 2) + Math.pow(userCoordinates[1] - listCoordinates[i + 1], 2)
+            );
+            mapList.set(`${listCoordinates[i]},${listCoordinates[i + 1]}`, m);
+          }
+
+          const mapListSort = new Map([...mapList.entries()].sort((a, b) => a[1] - b[1]));
+
+          for (let i = 0; i < listCoordinates.length / 2; i++) {
+            var mesto = Array.from(mapListSort)[i][0].split(",");
+            var lon = parseFloat(mesto[0]);
+            var lat = parseFloat(mesto[1]);
+            listCoordPanTo.push(lon);
+            listCoordPanTo.push(lat);
+          }
+
+          var coord = [];
+          coord.push(listCoordPanTo[listN]);
+          coord.push(listCoordPanTo[listN + 1]);
+
+          map.zoomRange.get(coord).then(function (range) {
+            map.setCenter(coord, 17);
+          });
+
+          listN += 2;
+
+          if (listN == listCoordinates.length) {
+            listN = 0;
+          }
+        });
+
+        map.controls.add(markerBliz);
+        clusterer = new ymaps.Clusterer({
+          clusterDisableClickZoom: true,
+          clusterHideIconOnBalloonOpen: false,
+          geoObjectHideIconOnBalloonOpen: false
+        });
+
+        var ZoomLayout = ymaps.templateLayoutFactory.createClass(
+          "<div class='positionZoom'>" +
+          "<button class='btn btnZoom' id='zoom-in'><i class='fa fa-plus'></i></button><br>" +
+          "<button class='btn btnZoom' id='zoom-out'><i class='fa fa-minus'></i></button>" +
+          "</div>", {
+          build: function () {
+            ZoomLayout.superclass.build.call(this);
+
+            this.zoomInCallback = ymaps.util.bind(this.zoomIn, this);
+            this.zoomOutCallback = ymaps.util.bind(this.zoomOut, this);
+
+            $('#zoom-in').bind('click', this.zoomInCallback);
+            $('#zoom-out').bind('click', this.zoomOutCallback);
+          },
+
+          clear: function () {
+            $('#zoom-in').unbind('click', this.zoomInCallback);
+            $('#zoom-out').unbind('click', this.zoomOutCallback);
+
+            ZoomLayout.superclass.clear.call(this);
+          },
+
+          zoomIn: function () {
+            var map = this.getData().control.getMap();
+            map.setZoom(map.getZoom() + 1, { checkZoomRange: true });
+          },
+
+          zoomOut: function () {
+            var map = this.getData().control.getMap();
+            map.setZoom(map.getZoom() - 1, { checkZoomRange: true });
+          }
+        });
+
+        var zoomControl = new ymaps.control.ZoomControl({ options: { layout: ZoomLayout } });
+        map.controls.add(zoomControl);
+
+        var route = document.getElementById("route");
+        var desc = document.getElementById("desc");
+
+        var car = document.getElementById('car');
+        var bus = document.getElementById('bus');
+        var bicycle = document.getElementById('bicycle');
+        var men = document.getElementById('men');
+        var close = document.getElementById('close');
+        var bars = document.getElementById('bars');
+
+        close.addEventListener('click', function () {
+          route.style.display = "none";
+          map.geoObjects.remove(multiRoute);
+        });
+
+        function ColorType(butActive, butNoActive1, butNoActive2, butNoActive3) {
+          butActive.style.background = "red";
+          butNoActive1.style.background = "DodgerBlue";
+          butNoActive2.style.background = "DodgerBlue";
+          butNoActive3.style.background = "DodgerBlue";
+        }
+
+        car.addEventListener('click', function () {
+          var type = multiRoute.model.getParams()["routingMode"];
+          if (type != "auto") {
+            multiRoute.model.setParams({
+              routingMode: 'auto'
+            });
+            ColorType(car, bus, bicycle, men);
+          } else {
+            ClickPuth();
+          }
+        });
+
+        bus.addEventListener('click', function () {
+          var type = multiRoute.model.getParams()["routingMode"];
+          if (type != "masstransit") {
+            multiRoute.model.setParams({
+              routingMode: 'masstransit'
+            });
+            ColorType(bus, bicycle, men, car);
+          } else {
+            ClickPuth();
+          }
+        });
+
+        bicycle.addEventListener('click', function () {
+          var type = multiRoute.model.getParams()["routingMode"];
+          if (type != "bicycle") {
+            multiRoute.model.setParams({
+              routingMode: 'bicycle'
+            });
+            ColorType(bicycle, men, car, bus);
+          } else {
+            ClickPuth();
+          }
+        });
+
+        men.addEventListener('click', function () {
+          var type = multiRoute.model.getParams()["routingMode"];
+          if (type != "pedestrian") {
+            multiRoute.model.setParams({
+              routingMode: 'pedestrian'
+            });
+            ColorType(men, car, bus, bicycle);
+          } else {
+            ClickPuth();
+          }
+        });
+
+        bars.addEventListener('click', function () {
+          var barsChecked = document.getElementById("barsChecked");
+          var checked = barsChecked.innerHTML == "+";
+          route.style.height = checked ? "100%" : "170px";
+          desc.style.display = checked ? "block" : "none";
+          barsChecked.innerHTML = checked ? "-" : "+";
+          close.style.display = checked ? "none" : "block";
+        });
+
+        function ClickPuth() {
+          $(".ymaps-2-1-79-route-pin__text").click();
+          setTimeout(() => $('.ymaps-2-1-79-route-content__button-holder').click(), 1000);
+          return;
+        }
+
+        function ShowMore(addressMarker, description, img, footer) {
+          var barsChecked = document.getElementById("barsChecked");
+          barsChecked.innerHTML = "+";
+          ColorType(car, bus, bicycle, men);
+          var icon = document.getElementById("icon");
+          icon.src = img;
+          var address_expans = document.getElementById("Route-Address-Expans");
+          address_expans.textContent = addressMarker;
+          route.style.display = "block";
+          desc.innerHTML = description + '<br><br>' + footer;
+          var tbody = document.getElementById("tbody");
+          tbody.style.height = webapp.viewportHeight - 170 + "px";
+
+          fetch(
+            "https://geocode-maps.yandex.ru/1.x/?apikey=30b338b1-915c-4382-9459-a6796eb0beea&geocode=" +
+            addressMarker +
+            "&format=json&sco=latlong", {
+            method: "GET",
+          })
+            .then((res) => res.json())
+            .then((parsed) => {
+              if (parsed["response"]["GeoObjectCollection"]["featureMember"].length != 0) {
+                var puth = parsed["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"];
+                var address = document.getElementById("Route-Address");
+                address.textContent = puth["name"];
+              }
+            })
+            .catch((err) => console.error("error", err));
+        }
+
+        geolocation.get({
+          mapStateAutoApply: true
+        }).then(function (result) {
+          userCoordinates = result.geoObjects.get(0).geometry.getCoordinates();
+
+          result.geoObjects.options.set('iconLayout', 'default#image');
+          result.geoObjects.options.set('iconImageHref', 'https://img.icons8.com/?size=512&id=52670&format=png');
+          result.geoObjects.options.set('iconImageSize', [40, 40]);
+          result.geoObjects.options.set('iconImageOffset', [-16, -25]);
+
+          result.geoObjects.get(0).properties.set({
+            balloonContentHeader: 'Мое местоположение',
+            balloonContentBody: `<p>Координаты: ${userCoordinates}</p>`,
+            balloonContentFooter: "Все права защищены",
+          });
+          map.geoObjects.add(result.geoObjects);
+                        map.geoObjects.add(result.geoObjects);  
+                        
+                        map.zoomRange.get(userCoordinates).then(function (range) {
+                             map.setCenter(userCoordinates, 17);
+                        }); 
+                       
+                    });
+                   
+                    fetch (
+                        "/Read.json",
+                        {
+                            method:"GET",
+                        }
+                    )
+                    
+                    .then((res)=> res.json())
+                    .then((parsed)=>{
+                        var marker;
+                        listCoordinates = []
+                        parsed.map((mark) => {
+                            var lon =  parseFloat(mark["lon"]);
+                            var lat = parseFloat(mark["lat"]);
+                            
+                            marker = new ymaps.Placemark(
+                                [lon, lat],
+                                {
+                                    balloonContentHeader: `<p>${mark["address"]}</p>`,
+                                    balloonContentBody: `<img class="img" src=${mark["img"]}/>`+
+                                                        `<pre>${mark["context"]}</pre>`,
+                                                
+                                    balloonContentFooter: `<p style="display:none;">${mark["id"]}</p>`,
+
+                                },{
+                                    iconLayout: 'default#image',
+                                    iconImageHref: 'https://img.icons8.com/?size=512&id=i9_k7abh0ZTX&format=png',
+                                    iconImageSize: [50, 50],
+                                    iconImageOffset: [-25,-50]
+                                }
+                            );
+                            
+                            listCoordinates.push(lon);
+                            listCoordinates.push(lat);
+       
+                            marker.events.add("balloonopen", function(event){
+                                event.get('target').balloon.close();
+                                console.log(userCoordinates);
+                                if(multiRoute != null){
+                                    map.geoObjects.remove(multiRoute);
+                                }
+                                if(userCoordinates == null){
+                                    alert("Ваше местоположение не найдено.\n\rМаршрут не построен!");
+                                    return;
+                                }
+                                var balloonContentHeader = event.get("target").properties.get("balloonContentHeader").replace("</p>","<p>").split("<p>")[1];
+                                var balloonContentBodyContent = event.get("target").properties.get("balloonContentBody").replace("</pre>","<pre>").split("<pre>")[1];
+                                var balloonContentBodyImg = event.get("target").properties.get("balloonContentBody").replace("/>","src=").split("src=")[1];
+                                var balloonContentFooter = event.get("target").properties.get("balloonContentFooter").replace("</p>","<p>").split("<p>")[1];
+
+                                multiRoute = new ymaps.multiRouter.MultiRoute({   
+                                    referencePoints: [
+                                        userCoordinates,
+                                        balloonContentHeader
+                                    ],
+                                    params: {
+                                        routingMode: "auto" 
+                                    }
+                                }, {
+                                    boundsAutoApply: false
+                                });
+                                map.geoObjects.add(multiRoute);
+                                ShowMore(balloonContentHeader,balloonContentBodyContent,balloonContentBodyImg,balloonContentFooter);
+                            });
+                            clusterer.add(marker);
+                            map.geoObjects.add(clusterer);
+                        });
+   
+                         
+                    })
+                    .catch((err) => console.error("error",err));
+                });
+                webapp.ready();            
+            }
+            Init();
+        </script>
+    </body>
+</html>
