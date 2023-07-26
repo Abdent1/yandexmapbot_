@@ -104,43 +104,41 @@ def get_text_messages(message):
             for p_id in data:
                 address_one = p_id.get('address')
                 address_listing.append(address_one)
+            if address_listing == []:
+                bot.send_message(chat_id=message.chat.id, text='На карте нет точек!')
+            else:
+                # Создаём пустой dict
+                myDict = dict()
+                myDict = {address_listing[i]: i for i in range(0, len(address_listing), 1)}
+                myList = [{key.strip(): str(value)} for key, value in myDict.items()]
+                kb_address = Keyboa(items=myList, items_in_row=3)
+                bot.send_message(chat_id=message.chat.id, text='Выберите точку для удаления', reply_markup= kb_address())
 
-            # Создаём пустой dict
-            myDict = dict()
-            myDict = {address_listing[i]: i for i in range(0, len(address_listing), 1)}
-            myList = [{key.strip(): str(value)} for key, value in myDict.items()]
-            kb_address = Keyboa(items=myList, items_in_row=3)
-            bot.send_message(chat_id=message.chat.id, text='Выберите точку для удаления', reply_markup= kb_address())
+                @bot.callback_query_handler(func=lambda call: True)
+                def callback_inline(call):
+                    search_value=call.data
+                    msg1 = next((key for item in myList for key, value in item.items() if value == search_value), None)
+                    bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=None)
 
-            @bot.callback_query_handler(func=lambda call: True)
-            def callback_inline(call):
-                search_value=call.data
-                msg1 = next((key for item in myList for key, value in item.items() if value == search_value), None)
-                bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=None)
-
-                point_del = msg1
-                with open('Read.json', 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    minimal = 0
-                    check = 0
-                    for txt in data:
-                        if txt['address'] == point_del:
-                            data.pop(minimal)
-                            check = check + 1
-                        else:
-                            None
-                            minimal = minimal + 1
-                if check == 1:
-                    bot.send_message(message.chat.id, 'Точка успешно удалена!')
-                else:
-                    bot.send_message(message.chat.id, 'Точка с данным адресом не найдена!')
-                f.close()
-                with open('Read.json', 'w', encoding='utf-8') as outfile:
-                    json.dump(data, outfile, ensure_ascii=False, indent=2)
-                outfile.close()
-
-
-
-
+                    point_del = msg1
+                    with open('Read.json', 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                        minimal = 0
+                        check = 0
+                        for txt in data:
+                            if txt['address'] == point_del:
+                                data.pop(minimal)
+                                check = check + 1
+                            else:
+                                None
+                                minimal = minimal + 1
+                    if check == 1:
+                        bot.send_message(message.chat.id, 'Точка успешно удалена!')
+                    else:
+                        bot.send_message(message.chat.id, 'Точка с данным адресом не найдена!')
+                    f.close()
+                    with open('Read.json', 'w', encoding='utf-8') as outfile:
+                        json.dump(data, outfile, ensure_ascii=False, indent=2)
+                    outfile.close()
 
 bot.polling(none_stop=True, interval=0)
